@@ -8,11 +8,6 @@ const SearchBar = ({ setResults }) => {
     const debounceTimeout = useRef(null); // Ref to store the timeout ID
 
     const fetchData = (value) => {
-        if (!value) {
-            setResults([]); // Clear results if search term is empty
-            return;
-        }
-
         axios.get('http://localhost:5000/search', {
             params: { value: value }
         })
@@ -25,18 +20,27 @@ const SearchBar = ({ setResults }) => {
     };
 
     const handleChange = (value) => {
+        
         setInput(value);
+
+        // Clear results immediately if the input is empty and clear any existing debounce timeout
+        if (!value.trim()) {
+            setResults([]); // Clear results if input is empty
+            clearTimeout(debounceTimeout.current);
+            return;
+        }
 
         // Clear the previous timeout if it exists
         if (debounceTimeout.current) {
             clearTimeout(debounceTimeout.current);
         }
 
-        // Set a new timeout to call fetchData after a 500ms delay
+        // Set a new timeout to call fetchData after a delay only if there is input
         debounceTimeout.current = setTimeout(() => {
             fetchData(value);
         }, 500); // Adjust delay as needed
     };
+    
 
     return (
         <div className="input-wrapper">
