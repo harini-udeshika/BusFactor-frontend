@@ -21,11 +21,11 @@ const GraphsDisplay = ({ fullNetworkData, keyCollaboratorsData }) => {
             )
             .append('g');
 
-        const color = d3.scaleOrdinal(d3.schemeCategory10);
+        const color = d3.scaleOrdinal(d3.schemeSet2);
 
         const simulation = d3
             .forceSimulation(graphData.nodes)
-            .force('link', d3.forceLink(graphData.edges).id(d => d.id).strength(0.05))
+            .force('link', d3.forceLink(graphData.edges).id(d => d.id).strength(0.02))
             .force('charge', d3.forceManyBody().strength(-300))
             .force('center', d3.forceCenter(0, 0));
 
@@ -40,13 +40,13 @@ const GraphsDisplay = ({ fullNetworkData, keyCollaboratorsData }) => {
 
         const node = svg
             .append('g')
-            .attr('stroke', '#74499c')
+            .attr('stroke', '#bdbdbd')
             .attr('stroke-width', 1.5)
             .selectAll('circle')
             .data(graphData.nodes)
             .join('circle')
             .attr('r', d => Math.sqrt(d.size || 1) * 10)
-            .attr('fill', '#c98fff')
+            .attr('fill', d => color(d.class))
             .call(
                 d3.drag()
                     .on('start', (event, d) => {

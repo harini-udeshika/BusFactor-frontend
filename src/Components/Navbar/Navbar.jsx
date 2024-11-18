@@ -1,17 +1,18 @@
-import React from 'react'
-import './Navbar.scss'
+import React from 'react';
+import './Navbar.scss';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     return (
         <header className='header'>
-            <a href="/" className="logo">Bus Factor</a>
+            <Link to="/" className="logo">Bus Factor</Link>
             <nav className="navbar">
-                <a href="/">Link 1</a>
-                <a href="/">Link 2</a>
-                <a href="/">Link 3</a>
+                <Link to="/">Home</Link>
+                <Link to="/completed-tasks">Completed Tasks</Link>
+                <Link to="/">Sample</Link>
             </nav>
         </header>
-    )
+    );
 }
 
-export default Navbar
+export default Navbar;
