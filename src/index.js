@@ -3,11 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { GlobalProvider } from './Global/GlobalProvider'; // Use GlobalProvider here
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <GlobalProvider> {/* Correctly wrap the App with GlobalProvider */}
+      <App />
+    </GlobalProvider>
   </React.StrictMode>
 );
 
