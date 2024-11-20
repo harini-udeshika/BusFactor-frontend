@@ -1,11 +1,12 @@
 // GraphSection.js
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import './GraphsDisplay.scss';
 const GraphsDisplay = ({ fullNetworkData, keyCollaboratorsData }) => {
+    const [changeGraph, setChangeGraph] = useState(false);
     const drawGraph = (selector, graphData) => {
         const width = 1000;
-        const height = 800;
+        const height = 600;
 
         const svg = d3
             .select(selector)
@@ -25,9 +26,13 @@ const GraphsDisplay = ({ fullNetworkData, keyCollaboratorsData }) => {
 
         const simulation = d3
             .forceSimulation(graphData.nodes)
-            .force('link', d3.forceLink(graphData.edges).id(d => d.id).strength(0.02))
-            .force('charge', d3.forceManyBody().strength(-300))
-            .force('center', d3.forceCenter(0, 0));
+            .force('link', d3.forceLink(graphData.edges).id(d => d.id).strength(0.05))
+            .force('charge', d3.forceManyBody().strength(-500))
+            .force('center', d3.forceCenter(0, 0))
+            .force('x', d3.forceX(0).strength(0.3)) // Pulls nodes horizontally toward center
+            .force('y', d3.forceY(0).strength(0.3))// Pulls nodes vertically toward center
+            .force('collision', d3.forceCollide().radius(d => Math.sqrt(d.size || 1) * 12)); // Adjust radius to fit your graph
+
 
         const link = svg
             .append('g')
@@ -36,7 +41,7 @@ const GraphsDisplay = ({ fullNetworkData, keyCollaboratorsData }) => {
             .selectAll('line')
             .data(graphData.edges)
             .join('line')
-            .attr('stroke-width', d => Math.sqrt(d.weight/10 || 1));
+            .attr('stroke-width', d => Math.sqrt(d.weight / 10 || 1));
 
         const node = svg
             .append('g')
@@ -89,20 +94,78 @@ const GraphsDisplay = ({ fullNetworkData, keyCollaboratorsData }) => {
     };
 
     useEffect(() => {
-        if (fullNetworkData) {
+        if (!changeGraph && fullNetworkData) {
             drawGraph('#fullNetwork', fullNetworkData);
-        }
-        if (keyCollaboratorsData) {
+        } else if (changeGraph && keyCollaboratorsData) {
             drawGraph('#keyCollaborators', keyCollaboratorsData);
         }
-    }, [fullNetworkData, keyCollaboratorsData]);
+    }, [fullNetworkData, keyCollaboratorsData, changeGraph]);
 
+
+    const calculateBusFactor = () => {
+        let keyDevelopers = [];
+        for (let name in keyCollaboratorsData.nodes) {
+            if (keyCollaboratorsData.nodes[name].class === 1) {
+                keyDevelopers.push(keyCollaboratorsData.nodes[name].id);
+
+            }
+        }
+        return keyDevelopers.length;
+    }
+
+    const getKeyDevNames = () => {
+        let keyDevelopers = [];
+        for (let name in keyCollaboratorsData.nodes) {
+            if (keyCollaboratorsData.nodes[name].class === 1) {
+                keyDevelopers.push(keyCollaboratorsData.nodes[name].id);
+
+            }
+        }
+        return keyDevelopers;
+    }
+    const fullGraphChange = (e) => {
+        setChangeGraph(false);
+
+    }
+    const keyGraphChange = (e) => {
+        setChangeGraph(true);
+    }
     return (
-        <div className="graph-container">
-            <div className="graph-heading">Full Contribution Network</div>
-            <svg id="fullNetwork"></svg>
-            <div className="graph-heading">Key Collaborators Network</div>
-            <svg id="keyCollaborators"></svg>
+        <div className="outer-container">
+            <div className="graph-container">
+
+                <div className="inner-container">
+                    <div className="button-container">
+                        <div
+                            className={`graph-heading ${!changeGraph ? 'active' : 'inactive'}`}
+                            onClick={fullGraphChange}
+                        >
+                            Full Contribution Network
+                        </div>
+                        <div
+                            className={`graph-heading ${changeGraph ? 'active' : 'inactive'}`}
+                            onClick={keyGraphChange}
+                        >
+                            Key Collaborators Network
+                        </div>
+                    </div>
+                    {!changeGraph && <svg id="fullNetwork"></svg>}
+                    {changeGraph && <svg id="keyCollaborators"></svg>}
+                </div>
+
+            </div>
+            <div className="bus-factor">
+                <div className='title'>Bus Factor : {calculateBusFactor()}</div>
+                <div className="sub-title">
+                    Key Developers
+                </div>
+                <div className='key-devs'>
+                    {getKeyDevNames().map((name, index) => (
+                        <div key={index}>{name}</div>
+                    ))}
+                </div>
+            </div>
+
         </div>
     );
 };

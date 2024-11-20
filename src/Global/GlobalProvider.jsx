@@ -5,13 +5,13 @@ export const GlobalContext = createContext();
 export const GlobalProvider = ({ children }) => {
   const [globalData, setGlobalData] = useState(() => {
     // Retrieve data from sessionStorage on initial load
-    const storedData = sessionStorage.getItem('globalData');
+    const storedData = localStorage.getItem('globalData');
     return storedData ? JSON.parse(storedData) : {};
   });
 
   // Save globalData to sessionStorage whenever it changes
   useEffect(() => {
-    sessionStorage.setItem('globalData', JSON.stringify(globalData));
+    localStorage.setItem('globalData', JSON.stringify(globalData));
   }, [globalData]);
 
   return (

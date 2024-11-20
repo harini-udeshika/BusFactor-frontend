@@ -1,21 +1,70 @@
-.graph-container{
+.outer-container{
     margin-top:1rem;
     width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin-left:10rem;
+   .bus-factor{
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    height: 80vh;
    
-    
+    .title{
+        color:#74499c;
+        font-size: 2.5rem;
+        font-weight:700;
+    }
+    .sub-title{
+        font-size:2rem;
+        font-weight:700;
+    }
+    .key-devs{
+       
+        scrollbar-width: auto;          /* "auto" or "thin" */
+        scrollbar-color:#CCCC #f5f1f8 ;   /* scroll thumb and track */ 
+        
+        overflow-y:auto;
+        font-size:1.3rem;
+        font-weight: 500;
+        div{
+            border-bottom:1px solid #cdccdc;
+            padding: 1rem;
+            width: 100%;
+        }
+    }
+   }
+    .graph-container{
+        width: 70%;
+      
+    }
     svg{
+        width: 90%;
         border-radius: 2rem;
         box-shadow: 0px 0px 8px #ddd;
         background-color: #f5f1f8;
     }
+    .button-container{
+        display: flex;
+        flex-direction: row;
+
+    }
+    
+    
+    .graph-heading.active {
+        background-color: #f5f1f8;
+    }
+    
+    .graph-heading.inactive {
+        background-color: #fff;
+    }
     .graph-heading{
+       cursor: pointer;
         color: #74499c;
         margin: 2rem 0;
         font-weight: 500;
         font-size: 1.2rem;
+        margin-right: 3rem;
         // background-color: #bb82f0;
         width: 24rem;
         padding: 0.5rem;
