@@ -2,7 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import './GraphsDisplay.scss';
-const GraphsDisplay = ({ fullNetworkData, keyCollaboratorsData }) => {
+import { useNavigate } from 'react-router-dom';
+
+const GraphsDisplay = ({ fullNetworkData, keyCollaboratorsData, hierarchiesData }) => {
+    const navigate = useNavigate();
     const [changeGraph, setChangeGraph] = useState(false);
     const drawGraph = (selector, graphData) => {
         const width = 1000;
@@ -130,6 +133,11 @@ const GraphsDisplay = ({ fullNetworkData, keyCollaboratorsData }) => {
     const keyGraphChange = (e) => {
         setChangeGraph(true);
     }
+    const handleNameClick = (name) => {
+        // console.log(graph_data);
+        const filedata = hierarchiesData.find(dict => dict.name === name)
+        navigate(`/file-contribution/${name}`, { state: { data: filedata } });
+    };
     return (
         <div className="outer-container">
             <div className="graph-container">
@@ -161,7 +169,9 @@ const GraphsDisplay = ({ fullNetworkData, keyCollaboratorsData }) => {
                 </div>
                 <div className='key-devs'>
                     {getKeyDevNames().map((name, index) => (
-                        <div key={index}>{name}</div>
+                        <div key={index} onClick={() => handleNameClick(name)}>
+                            <span>{name}</span>
+                        </div>
                     ))}
                 </div>
             </div>

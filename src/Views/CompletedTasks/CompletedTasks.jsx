@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { GlobalContext } from '../Global/GlobalProvider';
+import { GlobalContext } from '../../Global/GlobalProvider';
 import axios from 'axios';
-import RepoItem from '../Components/RepoItem/RepoItem';
+import RepoItem from '../../Components/RepoItem/RepoItem';
 import { useNavigate } from 'react-router-dom';
 import { Mosaic } from 'react-loading-indicators';
 import './CompletedTasks.scss'
@@ -22,9 +22,14 @@ const CompletedTasks = () => {
     }
   };
 
-  const handleClick = (graph_data) => {
+  const handleClick = (graph_data, url) => {
+
+    const parsedUrl = new URL(url);
+    const repo = parsedUrl.pathname.slice(1);
     // console.log(graph_data);
-    navigate('/graphs', { state: { data: graph_data } });
+    localStorage.setItem('graphData', JSON.stringify(graph_data));
+
+    navigate(`/graphs/${repo}`, { state: { data: graph_data } });
   };
 
   // Fetch all repository data on component mount
@@ -59,7 +64,7 @@ const CompletedTasks = () => {
             <RepoItem
               key={index}
               result={data[0]}
-              onClick={() => handleClick(globalData[url])}
+              onClick={() => handleClick(globalData[url], url)}
             />
           ) : null
         )

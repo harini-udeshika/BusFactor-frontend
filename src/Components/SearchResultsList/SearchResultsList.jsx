@@ -53,8 +53,9 @@ const SearchResultsList = ({ results }) => {
         if (socketRef.current) {
           socketRef.current.disconnect();
         }
-
-        navigate('/graphs', { state: { data: response.data } });
+        const parsedUrl = new URL(repo_url);
+        const repo = parsedUrl.pathname.slice(1);
+        navigate(`/graphs/${repo}`, { state: { data: response.data } });
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
