@@ -4,7 +4,7 @@ import Home from './Views/Home';
 import Graphs from './Views/Graphs';
 import CompletedTasks from './Views/CompletedTasks/CompletedTasks';
 import Navbar from './Components/Navbar/Navbar';
-import FileContribution from './Views/CompletedTasks/FileContributions/FileContribution';
+import FileContribution from './Views/FileContributions/FileContribution';
 
 const App = () => {
   return (
