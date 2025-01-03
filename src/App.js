@@ -2,8 +2,9 @@ import React from 'react';
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import Home from './Views/Home';
 import Graphs from './Views/Graphs';
-import CompletedTasks from './Views/CompletedTasks';
+import CompletedTasks from './Views/CompletedTasks/CompletedTasks';
 import Navbar from './Components/Navbar/Navbar';
+import FileContribution from './Views/CompletedTasks/FileContributions/FileContribution';
 
 const App = () => {
   return (
@@ -12,8 +13,9 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/graphs' element={<Graphs />} />
+          <Route path='/graphs/:repo/*' element={<Graphs />} />
           <Route path='/completed-tasks' element={<CompletedTasks />} />
+          <Route path='/file-contribution/:name' element={<FileContribution />} />
           <Route path='*' element={<h1>404 Not Found</h1>} /> {/* Fallback Route */}
         </Routes>
       </BrowserRouter>
