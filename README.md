@@ -1,70 +1,81 @@
-# Getting Started with Create React App
+# Bus Factor Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is the frontend application for the Bus Factor analysis tool. It is built using React and provides a user-friendly interface for visualizing data such as code contributions, task completion, and repository insights.
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+Before running this project, ensure you have the following installed on your machine:
 
-### `npm start`
+- **Node.js** (v16 or later) - [Download Node.js](https://nodejs.org/)
+- **npm** (comes with Node.js)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Getting Started
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Follow these steps to set up and run the project on your local machine:
 
-### `npm test`
+### 1. Clone the Repository
+```bash
+git clone https://github.com/harini-udeshika/BusFactor-frontend.git
+cd harini-udeshika-busfactor-frontend
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+### 2. Install Dependencies
+Install the required packages using npm:
+```bash
+npm install
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 3. Start the Development Server
+Run the following command to start the development server:
+```bash
+npm start
+```
+This will start the React app and open it in your default web browser. The app will be accessible at `http://localhost:3000/`.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 4. Run Tests (Optional)
+To run the test suite:
+```bash
+npm test
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 5. Build for Production (Optional)
+To create a production build of the application:
+```bash
+npm run build
+```
+The optimized build will be located in the `build/` directory.
 
-### `npm run eject`
+## Project Structure
+The project is organized into the following directories:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- **`public/`**: Contains static assets like `index.html`, `manifest.json`, and `robots.txt`.
+- **`src/`**: Contains the source code of the application.
+  - **`Components/`**: Reusable components, each with their own styles.
+    - **`GraphsDisplay/`**: Displays graphical data.
+    - **`Navbar/`**: The navigation bar component.
+    - **`RepoItem/`**: Displays repository information.
+    - **`SearchBar/`**: The search bar component.
+    - **`SearchResultsList/`**: Displays search results.
+    - **`TreeMap/`**: Component for tree map visualization.
+  - **`Global/`**: Contains the global state management provider.
+  - **`Views/`**: Contains the main views of the application.
+    - **`Graphs.jsx`**: View for displaying graphs.
+    - **`Home.jsx`**: Home view of the application.
+    - **`CompletedTasks/`**: Displays completed tasks.
+    - **`FileContributions/`**: Displays file contribution data.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Additional Notes
+- **Development Tools**: Ensure your IDE/editor supports JavaScript/React for the best development experience.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Troubleshooting
+If you encounter issues:
+1. Ensure Node.js and npm are installed correctly.
+2. Delete the `node_modules` folder and reinstall dependencies:
+   ```bash
+   rm -rf node_modules
+   npm install
+   ```
+3. Check for error messages in the terminal or browser console.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
