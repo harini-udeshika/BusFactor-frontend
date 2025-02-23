@@ -9,7 +9,7 @@ const TreeMap = ({ data }) => {
   useEffect(() => {
     if (!data || data.length === 0) return;
 
-    const width = 1500;
+    const width = 1800;
     const height = 600;
 
     const tile = (node, x0, y0, x1, y1) => {
@@ -43,15 +43,53 @@ const TreeMap = ({ data }) => {
     svg.selectAll("*").remove(); // Clear previous SVG
 
     svg
-      .attr("viewBox", [0.5, -30.5, width, height + 30])
+      .attr("viewBox", [0.5, -30.5, width, height + 150]) // Extra space for the legend
       .attr("width", width)
-      .attr("height", height + 30)
+      .attr("height", height + 200) // Adjust height for legend space
       .attr("style", "max-width: 100%; height: auto;")
-      .style("font", "10px sans-serif");
+      .style("font", "14px sans-serif");
 
     let group = svg.append("g").call(render, root);
 
+    // Legend data
+    const legendItems = [
+      { label: "Contributing File", color: "#FF9C73" },
+      { label: "Non-Contributing File", color: "#DCE4C9" },
+      { label: "Folder (Clickable)", color: "#A1D6B2" },
+      { label: "Root Folder Path (Clickable)", color: "#F4E0AF" },
+    ];
 
+    // Add legend group
+    const legend = svg
+      .append("g")
+      .attr("transform", `translate(10, ${height + 30})`); // Position legend below the chart
+
+    // Render legend items
+    legend
+      .selectAll("g")
+      .data(legendItems)
+      .enter()
+      .append("g")
+      .attr("transform", (d, i) => `translate( ${i * 230},0)`) // Position each legend item
+      .each(function (d) {
+        const itemGroup = d3.select(this);
+
+        // Add legend color box
+        itemGroup
+          .append("rect")
+          .attr("width", 15)
+          .attr("height", 15)
+          .attr("fill", d.color);
+
+        // Add legend label
+        itemGroup
+          .append("text")
+          .attr("x", 20) // Position text next to the color box
+          .attr("y", 12) // Center text vertically with the box
+          .text(d.label)
+          .attr("font-size", "16px")
+          .attr("fill", "#000");
+      });
 
     function DOMuid(name) {
       return { id: `O-${name}-${Math.random().toString(16).slice(2)}` };
@@ -73,9 +111,11 @@ const TreeMap = ({ data }) => {
       node
         .append("rect")
         .attr("id", (d) => (d.leafUid = DOMuid("leaf")).id)
-        .attr("fill", (d) =>
-          d === root ? "#F4E0AF" : d.children ? "#A1D6B2" : "#CDC1FF"
-        )
+        .attr("fill", (d) => {
+          if (d === root) return "#F4E0AF"; // Root node color
+          if (d.children) return "#A1D6B2"; // Parent node color
+          return d.data.contribution ? "#FF9C73" : "#DCE4C9"; // Leaf node colors
+        })
         .attr("stroke", "#fff");
 
       node
@@ -89,23 +129,17 @@ const TreeMap = ({ data }) => {
         .attr("clip-path", (d) => d.clipUid)
         .attr("font-weight", (d) => (d === root ? "bold" : null))
         .selectAll("tspan")
-        .data((d) =>
-          (d === root ? name(d) : d.data.name)
-            .split(/(?=[A-Z][^A-Z])/g)
-            .concat(format(d.value))
-        )
+        .data((d) => {
+          const fileNameParts = (d === root ? [name(d)] : d.data.name.split(/(?=[A-Z][^A-Z])/g));
+          const fileSize = format(d.value); // File size
+          const percentage = d.data.percentage ? `${d.data.percentage.toFixed(0)}%` : ""; // Percentage
+          return [...fileNameParts, fileSize, percentage];
+        })
         .join("tspan")
         .attr("x", 3)
-        .attr(
-          "y",
-          (d, i, nodes) => `${(i === nodes.length - 1) * 0.3 + 1.1 + i * 0.9}em`
-        )
-        .attr("fill-opacity", (d, i, nodes) =>
-          i === nodes.length - 1 ? 0.7 : null
-        )
-        .attr("font-weight", (d, i, nodes) =>
-          i === nodes.length - 1 ? "normal" : null
-        )
+        .attr("y", (d, i, nodes) => `${(i === nodes.length - 1) * 0.3 + 1.1 + i * 0.9}em`)
+        .attr("fill-opacity", (d, i, nodes) => (i >= nodes.length - 2 ? 0.7 : null)) // Slight transparency for numbers
+        .attr("font-weight", (d, i, nodes) => (i >= nodes.length - 2 ? "normal" : null))
         .text((d) => d);
 
       group.call(position, root);
@@ -169,9 +203,8 @@ const TreeMap = ({ data }) => {
 
       setCurrentRoot(d.parent);
     }
-
-
   }, [data]);
+
 
   return <svg ref={svgRef}></svg>;
 };
