@@ -1,0 +1,16 @@
+.file-contribution {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  width: 100%;
+  height: 90vh;
+  padding:0.1rem;
+  .title{
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    
+  }
+}

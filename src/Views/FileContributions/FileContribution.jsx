@@ -8,8 +8,8 @@ function FileContribution() {
     const { name } = useParams();
 
     return (
-        <div>
-            <h1>Unique file contributions by {name}</h1>
+        <div className='file-contribution'>
+            <div className='title'>Contributions by {name}</div>
             <TreeMap data={data} />
         </div>
     )
